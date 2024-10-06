@@ -7,7 +7,7 @@ package hw03;
  * @author Dickinson College
  * @version Feb 18, 2016
  */
-public class CS232ArrayList<E> implements CS232List<E> {
+public class CS232ArrayList<E> implements CS232List<E>, CS232Iterable<E> {
 
     private static final int INITIAL_CAPACITY = 10;
 
@@ -142,6 +142,51 @@ public class CS232ArrayList<E> implements CS232List<E> {
             currentSize--;
 
             return elem;
+        }
+    }
+    private class ArrayListIterator<E> implements CS232Iterator<E>{
+        private int cursor;
+        private int lastAccessed = -1;
+
+        public ArrayListIterator(){
+            cursor = 0;
+        }
+
+        @Override
+        public boolean hasNext(){
+            return cursor < currentSize;
+        }
+
+        @Override
+        public E next(){
+            if(!hasNext()){
+                throw new NoSuchElementException();
+            }
+            lastAccessed = cursor;
+            return listElements[cursor++];
+        }
+
+        @Override 
+        public boolean hasPrevious(){
+            return cursor > 0;
+        }
+
+        @Override
+        public E previous(){
+            if(!hasprevious){
+                throw new noSuchElementException();
+            }
+            lastAccessed = --cursor;
+            return listElements[cursor];
+        }
+
+        @Override 
+        public void insert(E element){
+            throw new UnsupportedOperationException();
+        }
+        @Override
+        public E remove(){
+            throw new UnsupportedOperationException();
         }
     }
 }
