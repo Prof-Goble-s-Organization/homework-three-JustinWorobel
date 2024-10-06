@@ -114,9 +114,18 @@ public class CS232DoublyLinkedList<E> implements CS232List<E> {
 	 * {@inheritDoc}
 	 */
 	public E remove(int index) throws IndexOutOfBoundsException {
-		// Intentionally not implemented.
-		return null;
-	}
+		checkBounds(index);
+
+		DLLNode nodeToRemove = getNode(index);
+		E removedElement = nodeToRemove.element;
+
+		nodeToRemove.prev.next = nodeToRemove.next;
+		nodeToRemove.next.prev = nodeToRemove.prev;
+
+		size --;
+		return removedElement;
+	
+		}
 
 	/**
 	 * Clear all elements of the list up to and including index. The element, if
@@ -128,7 +137,14 @@ public class CS232DoublyLinkedList<E> implements CS232List<E> {
 	 *             if index < 0 or index >= size()
 	 */
 	public void clearTo(int index) throws IndexOutOfBoundsException {
-		// Intentionally not implemented.
+		checkBounds(index);
+
+		DLLNode lastNode = getNode(index);
+
+		head.next = lastNode.next;
+		lastNode.next.prev = head;
+
+		size -= index + 1;
 	}
 
 	/**
@@ -149,7 +165,20 @@ public class CS232DoublyLinkedList<E> implements CS232List<E> {
 	 */
 	public void addAllAt(int index, CS232DoublyLinkedList<E> list)
 			throws IndexOutOfBoundsException {
-		// Intentionally not implemented.
+		if(list.size() > 0 ){
+			checkBounds(index);
+
+			DLLNode succ = getNode(index);
+			DLLNode pred = succ.prev;
+
+			pred.next = list.head.next;
+			list.head.next.prev = pred;
+
+			succ.prev = list.tail.prev;
+			list.tail.prev.next = succ;
+
+			size += list.size();
+		}
 	}
 
 	/*
